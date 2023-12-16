@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from './Button';
+import { FilterValuesType } from './App';
 
 export type TaskType = {
     id: number
@@ -11,34 +12,40 @@ export type TaskType = {
 type TodoListPropsType = {
     title: string
     tasks: Array<TaskType>
+    removeTask: (taskId:number) => void
+    changeTodoListFilter : (filterValue: FilterValuesType) => void
 }
 
-export const TodoList = ({title, tasks}: TodoListPropsType) => {
+export const TodoList = ({title, tasks, removeTask, changeTodoListFilter}: TodoListPropsType) => {
 
-    const ListItems: Array<JSX.Element> = []
-
-    for (let i = 0; i < tasks.length; i++) {
-        const listItem : JSX.Element = <li>
-            <input type="checkbox" checked={tasks[i].isDone}/> 
-            <span>{tasks[i].title}</span>
-        </li>
-        ListItems.push(listItem)
-    }
+    const tasksList: JSX.Element = tasks.length !== 0 
+        ? <ul>
+            {
+                tasks.map((task : TaskType) => {
+                    return (
+                        <li key={task.id}>
+                        <input type="checkbox" checked={task.isDone}/> 
+                        <span>{task.title}</span>
+                        <Button title='x' onClickHandler={() => {removeTask(task.id)}}/>
+                    </li>
+                    )
+                }) 
+            }
+        </ul>
+        : <span>Tasklist empty</span>
 
     return (
         <div className='todoList'>
             <h3>{title}</h3>
             <div>
                 <input/>
-                <Button title='+' />
+                <Button onClickHandler={()=> {}} title='+' />
             </div>
-            <ul>
-                {ListItems}
-            </ul>
+            {tasksList}
             <div>
-                <Button title='All' />
-                <Button title='Active' />
-                <Button title='Completed' />
+                <Button onClickHandler={() => {changeTodoListFilter("all")}} title='All'/>
+                <Button onClickHandler={() => {changeTodoListFilter("active")}} title='Active' />
+                <Button onClickHandler={() => {changeTodoListFilter("completed")}} title='Completed' />
             </div>
         </div>
     )
