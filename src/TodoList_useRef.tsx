@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import React, { useRef } from 'react';
 import { Button } from './Button';
 import { FilterValuesType } from './App';
 
@@ -22,7 +22,7 @@ type TodoListPropsType = {
 
 export const TodoList = ({title, tasks, removeTask, changeTodoListFilter, addTask}: TodoListPropsType) => {
     
-    const [taskTitle, setTaskTitle] = useState<string>('')
+    const taskTitleInput = useRef<HTMLInputElement>(null)
 
     const tasksList: JSX.Element = tasks.length !== 0 
         ? <ul>
@@ -40,35 +40,21 @@ export const TodoList = ({title, tasks, removeTask, changeTodoListFilter, addTas
         </ul>
         : <span>Tasklist empty</span>
 
+        
         const addTaskHandler = () => {
-            const trimmedTaskTitle = taskTitle.trim()
-            if(trimmedTaskTitle) {
-                addTask(taskTitle)
-            } else {
-                alert('У тебя одни пробелы!')
-                }
-            setTaskTitle('')
-
-        }
-   
-        const onKeyDownTitleHendler = (e: KeyboardEvent<HTMLInputElement>) => {
-            if(e.key === 'Enter' && taskTitle) {
-                addTaskHandler()
+            if(taskTitleInput.current) {
+                const newTaskTitle = taskTitleInput.current.value;
+                addTask(newTaskTitle);
+                taskTitleInput.current.value = "";
             }
         }
-
-        const onChangeTitleHendler = (e: ChangeEvent<HTMLInputElement>) => {
-            setTaskTitle(e.currentTarget.value)
-        }
-
-
+   
     return (
         <div className='todoList'>
             <h3>{title}</h3>
             <div>
-                <input value={taskTitle} onChange={onChangeTitleHendler} 
-                onKeyDown={onKeyDownTitleHendler}/>
-                <Button onClickHandler={addTaskHandler} title='+' isDisabled={!taskTitle} />
+                <input ref={taskTitleInput} />
+                <Button onClickHandler={addTaskHandler} title='+' />
             </div>
             {tasksList}
             <div>

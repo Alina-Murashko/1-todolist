@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './App.css';
 import { TaskType, TodoList } from './TodoList';
+import { v1 } from 'uuid';
 
 
 const titleTodoList = "What to learn";
@@ -8,37 +9,20 @@ const titleTodoList = "What to learn";
 export type FilterValuesType = "all"|"active"|"completed"
 
 function App() {
-   /* let tasks : Array<TaskType> = [
-        {
-            id: 1,
-            title: "HTML",
-            isDone : true,
-        },
-        {
-            id: 2,
-            title: "CSS",
-            isDone : true,
-        },
-        {
-            id: 3,
-            title: "TS",
-            isDone : false,
-        },
-    ]*/
-
+   
     const [tasks, setTasks] = useState <Array<TaskType>>([
         {
-            id: 1,
+            id: v1(),
             title: "HTML",
             isDone : true,
         },
         {
-            id: 2,
+            id: v1(),
             title: "CSS",
             isDone : true,
         },
         {
-            id: 3,
+            id: v1(),
             title: "TS",
             isDone : false,
         },
@@ -55,10 +39,17 @@ function App() {
             return tasksForTodoList
     }
 
+    const addTask = (title: string) => {
+        const newTask: TaskType={
+            id: v1(),
+            title,
+            isDone: false,
+        }
+        setTasks([newTask, ...tasks]);
+    }
 
-
-    const removeTask = (taskId: number) => {
-        setTasks(tasks.filter(t => t.id !== taskId))
+    const removeTask = (taskId: string) => {
+        setTasks(tasks.filter(t => t.id !== taskId));
     }
 
     const changeTodoListFilter = (filterValue: FilterValuesType) => {
@@ -67,7 +58,7 @@ function App() {
 
     return (
         <div className="App">
-           <TodoList changeTodoListFilter={changeTodoListFilter} removeTask ={removeTask} title={titleTodoList} tasks={getFilteredTasks(tasks, filter)}/>
+           <TodoList addTask={addTask} changeTodoListFilter={changeTodoListFilter} removeTask ={removeTask} title={titleTodoList} tasks={getFilteredTasks(tasks, filter)}/>
         </div>
     );
 }
