@@ -12,4 +12,31 @@
   border-radius: 5px;
   background-color: #ADD8E6;
   padding: 15px;
+  
+}
+
+li {
+  list-style-type: none;
+}
+
+.task {
+  font-weight: 500;
+}
+
+.error {
+  border: red 1px solid;
+}
+
+.error-message {
+  color: red;
+}
+
+.active-filter {
+  background-color: aquamarine;
+  border: 2px solid aquamarine;
+}
+
+.is-done {
+  opacity: 0.5;
+  text-decoration: line-through;
 }
