@@ -1,53 +1,56 @@
-import { ChangeEvent, KeyboardEvent, KeyboardEventHandler, useState } from "react";
-import { Button } from "./Button";
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
-type AddItemFormProps = {
-    callBack: (title: string) => void
+type AddItemFormPropsType = {
+    addItem: (title: string) => void
 }
 
+export function AddItemForm(props: AddItemFormPropsType) {
 
-export const AddItemForm: React.FC<AddItemFormProps> = (props: AddItemFormProps) => {
+    let [title, setTitle] = useState("")
+    let [error, setError] = useState<string | null>(null)
 
-    const [taskTitle, setTaskTitle] = useState<string>('');
-    const [inputError,setInputError] = useState<boolean>(false);
-
-    const addTaskHandler = () => {
-        const trimmedTaskTitle = taskTitle.trim()
-        if(trimmedTaskTitle) {
-            setInputError(false);
-            props.callBack(taskTitle)
+    const addItem = () => {
+        if (title.trim() !== "") {
+            props.addItem(title);
+            setTitle("");
         } else {
-            setInputError(true);
+            setError("Title is required");
         }
-        setTaskTitle('')
     }
 
-
-        const onKeyDownTitleHendler = (e: KeyboardEvent<HTMLInputElement>) => {
-            if(e.key === 'Enter' && taskTitle) {
-                addTaskHandler()
-            } else if(e.key === 'Enter' && !taskTitle) {
-                setInputError(true);
-            }
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.currentTarget.value)
+    }
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        setError(null);
+        if (e.charCode === 13) {
+            addItem();
         }
+    }
 
-        const onChangeTitleHendler = (e: ChangeEvent<HTMLInputElement>) => {
-            setInputError(false);
-            setTaskTitle(e.currentTarget.value)
-        }
+    const styles = {
+        maxWidth: '38px',
+        maxHeight: '38px',
+        minWidth: '38px',
+        minHeight: '38px',
+    }
 
-    
+    return <div>
+        <TextField
+            error={!!error}
+            size={'small'}
+            value={title}
+            onChange={onChangeHandler}
+            onKeyPress={onKeyPressHandler}
+            className={error ? "error" : ""}
+            id="outlined-basic"
+            label={error ? error : "type smth..."}
+            variant="outlined"
+        />
 
-    return (
-        <div>
-            <div>
-                <input value={taskTitle} 
-                    onChange={onChangeTitleHendler} 
-                    onKeyDown={onKeyDownTitleHendler}
-                    className={inputError ? 'error' : ''}/>
-                <Button onClickHandler={addTaskHandler} title='+' isDisabled={!taskTitle} />
-                {inputError && <div className='error-message'>Error: title is requried</div>}
-            </div>
-        </div>
-    )
+        <Button variant="contained" onClick={addItem} style={styles}>+</Button>
+        {/*{error && <div className="error-message">{error}</div>}*/}
+    </div>
 }

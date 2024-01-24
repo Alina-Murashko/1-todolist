@@ -1,42 +1,26 @@
+
 .App {
-  padding: 30px;
-  display: flex;
+  /*padding: 30px;*/
+  /*display: flex;*/
 }
 
-.App > div {
-  margin-right: 50px;
-}
+/*.App > div {*/
+/*  margin-right: 50px;*/
+/*}*/
 
-.todoList {
-  border: 2px solid rgb(15, 119, 246);
-  border-radius: 5px;
-  background-color: #ADD8E6;
-  padding: 15px;
-  
-}
+/*.error {*/
+/*  border: red 1px solid;*/
+/*}*/
 
-li {
-  list-style-type: none;
-}
+/*.error-message {*/
+/*  color: red;*/
+/*}*/
 
-.task {
-  font-weight: 500;
-}
+/*.active-filter {*/
+/*  background-color: aquamarine;*/
+/*}*/
 
-.error {
-  border: red 1px solid;
-}
+/*.is-done {*/
+/*  opacity: 0.5;*/
+/*}*/
 
-.error-message {
-  color: red;
-}
-
-.active-filter {
-  background-color: aquamarine;
-  border: 2px solid aquamarine;
-}
-
-.is-done {
-  opacity: 0.5;
-  text-decoration: line-through;
-}
