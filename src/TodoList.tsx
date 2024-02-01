@@ -1,11 +1,11 @@
-import React, {ChangeEvent} from 'react';
+
 import {FilterValuesType} from './App';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
-import { CheckBoxInput } from './state/components/CheckBoxInput';
+import { CheckBoxInput } from './components/CheckBoxInput';
 
 export type TaskType = {
     id: string
